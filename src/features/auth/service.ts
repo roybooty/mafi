@@ -4,10 +4,19 @@ import { usersTable } from "../../db/schema.ts";
 import type { User } from "./types.ts";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../config/env.ts";
+import * as z from "zod";
 
 // Logic to create user
-export const createUser = async (data: User) => {
+export const createUser = async (input: User) => {
+  const vUsr = z.object({
+    name: z.string().nonempty(),
+    email: z.string().nonempty(),
+    password: z.string().nonempty(),
+  });
+
   try {
+    const data = vUsr.parse(input);
+
     const existingUser = await db
       .select()
       .from(usersTable)
@@ -40,8 +49,14 @@ export const createUser = async (data: User) => {
 };
 
 // Logic to add in user
-export const loginUser = async (data: User) => {
+export const loginUser = async (input: User) => {
+  const vUsr = z.object({
+    email: z.string().nonempty(),
+    password: z.string().nonempty(),
+  });
+
   try {
+    const data = vUsr.parse(input);
     const existingUser = await db
       .select()
       .from(usersTable)
