@@ -2,7 +2,6 @@ import db from "../../db/connect.ts";
 import { eq } from "drizzle-orm";
 import { usersTable } from "../../db/schema.ts";
 import type { User } from "./types.ts";
-import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../config/env.ts";
 
@@ -17,7 +16,7 @@ export const createUser = async (data: User) => {
       return { message: "User already exist", status: 200 };
     }
 
-    const hashedPassword = await argon2.hash(data.password);
+    const hashedPassword = await Bun.password.hash(data.password);
     data.password = hashedPassword;
 
     const newUser = await db
@@ -51,9 +50,9 @@ export const loginUser = async (data: User) => {
       return { message: "User or Password is incorrect", status: 404 };
     }
 
-    const verifyPassword = await argon2.verify(
-      existingUser[0].password,
+    const verifyPassword = await Bun.password.verify(
       data.password,
+      existingUser[0].password,
     );
     if (!verifyPassword) {
       return { message: "User or Password is incorrect", status: 404 };

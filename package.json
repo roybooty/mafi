@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
-    "argon2": "^0.44.0",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "jsonwebtoken": "^9.0.3"
