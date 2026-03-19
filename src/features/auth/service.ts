@@ -60,9 +60,8 @@ export const loginUser = async (data: User) => {
 
     const token = await jwt.sign({ userId: existingUser[0]?.id }, JWT_SECRET, {
       expiresIn: "5d",
-      algorithm: "RS256",
     });
-    return { message: "User created successfully", status: 201, key: token };
+    return { message: "User login successfully", status: 200, key: token };
   } catch (error) {
     throw error;
   }
