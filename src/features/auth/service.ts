@@ -13,7 +13,7 @@ export const createUser = async (data: User) => {
       .from(usersTable)
       .where(eq(usersTable.email, data.email));
     if (existingUser.length > 0) {
-      return { message: "User already exist", status: 200 };
+      return { message: "User already exist", status: 409 };
     }
 
     const hashedPassword = await Bun.password.hash(data.password);
@@ -32,7 +32,7 @@ export const createUser = async (data: User) => {
           expiresIn: "5d",
         },
       );
-      return { message: "User created successfully", status: 201, key: token };
+      return { message: "User created successfully", status: 200, key: token };
     }
   } catch (error) {
     throw error;
