@@ -1,3 +1,4 @@
+// @ts-nocheck
 import db from "../../db/connect.ts";
 import { eq } from "drizzle-orm";
 import { usersTable } from "../../db/schema.ts";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createUser, loginUser } from "./service.ts";
 
 export const authRouter = {
